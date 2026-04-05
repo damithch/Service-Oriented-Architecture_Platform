@@ -54,3 +54,11 @@ D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\obj\Debug\net
 D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\obj\Debug\net10.0\KMCEventPlatform.API.pdb
 D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\obj\Debug\net10.0\KMCEventPlatform.API.genruntimeconfig.cache
 D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\obj\Debug\net10.0\ref\KMCEventPlatform.API.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.Logging.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\Microsoft.IdentityModel.Tokens.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.API\bin\Debug\net10.0\System.IdentityModel.Tokens.Jwt.dll

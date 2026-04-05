@@ -36,7 +36,7 @@ namespace KMCEventPlatform.Data.Repositories
 
         public async Task<T?> GetByIdAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             return await _collection.Find(filter).FirstOrDefaultAsync();
         }
 
@@ -52,13 +52,13 @@ namespace KMCEventPlatform.Data.Repositories
             {
                 ReturnDocument = ReturnDocument.After
             };
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             return await _collection.FindOneAndReplaceAsync(filter, entity, options);
         }
 
         public async Task<bool> DeleteAsync(string id)
         {
-            var filter = Builders<T>.Filter.Eq("_id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             var result = await _collection.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
         }

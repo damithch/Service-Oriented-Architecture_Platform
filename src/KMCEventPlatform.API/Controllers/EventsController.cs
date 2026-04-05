@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using KMCEventPlatform.Services.Services;
 using KMCEventPlatform.Services.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace KMCEventPlatform.API.Controllers
 {
@@ -49,6 +51,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Create a new event
         /// </summary>
+        [Authorize(Roles = "Organizer,Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -59,6 +62,13 @@ namespace KMCEventPlatform.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, eventDto.OrganizerId, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
             var createdEvent = await _eventService.CreateEventAsync(eventDto);
             return CreatedAtAction(nameof(GetEventById), new { id = createdEvent.Id }, createdEvent);
         }
@@ -66,6 +76,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Update an existing event
         /// </summary>
+        [Authorize(Roles = "Organizer,Admin")]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -76,6 +87,17 @@ namespace KMCEventPlatform.API.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var existingEvent = await _eventService.GetEventByIdAsync(id);
+            if (existingEvent == null)
+                return NotFound(new { message = "Event not found" });
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, existingEvent.OrganizerId, StringComparison.Ordinal))
+                    return Forbid();
+            }
 
             var updatedEvent = await _eventService.UpdateEventAsync(id, eventDto);
 
@@ -88,12 +110,25 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Delete an event
         /// </summary>
+        [Authorize(Roles = "Organizer,Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteEvent(string id)
         {
             _logger.LogInformation($"Deleting event with ID: {id}");
+
+            var existingEvent = await _eventService.GetEventByIdAsync(id);
+            if (existingEvent == null)
+                return NotFound(new { message = "Event not found" });
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, existingEvent.OrganizerId, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
             var result = await _eventService.DeleteEventAsync(id);
 
             if (!result)
@@ -151,14 +186,46 @@ namespace KMCEventPlatform.API.Controllers
         }
 
         /// <summary>
+        /// Get participants registered for an event
+        /// </summary>
+        [Authorize(Roles = "Organizer,Admin")]
+        [HttpGet("{eventId}/participants")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<ParticipantDto>>> GetParticipantsForEvent(string eventId)
+        {
+            var existingEvent = await _eventService.GetEventByIdAsync(eventId);
+            if (existingEvent == null)
+                return NotFound(new { message = "Event not found" });
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, existingEvent.OrganizerId, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
+            var participants = await _eventService.GetParticipantsForEventAsync(eventId);
+            return Ok(participants);
+        }
+
+        /// <summary>
         /// Register a participant for an event
         /// </summary>
+        [Authorize]
         [HttpPost("{eventId}/register/{participantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterParticipant(string eventId, string participantId)
         {
             _logger.LogInformation($"Registering participant {participantId} for event {eventId}");
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, participantId, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
             var result = await _eventService.RegisterParticipantAsync(eventId, participantId);
 
             if (!result)
@@ -170,12 +237,21 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Unregister a participant from an event
         /// </summary>
+        [Authorize]
         [HttpDelete("{eventId}/unregister/{participantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UnregisterParticipant(string eventId, string participantId)
         {
             _logger.LogInformation($"Unregistering participant {participantId} from event {eventId}");
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, participantId, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
             var result = await _eventService.UnregisterParticipantAsync(eventId, participantId);
 
             if (!result)

@@ -22,6 +22,7 @@ namespace KMCEventPlatform.Services.DTOs
         public string ContactEmail { get; set; } = string.Empty;
         public string ContactPhone { get; set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
+        public List<string> ParticipantIds { get; set; } = new();
     }
 
     /// <summary>
@@ -36,6 +37,8 @@ namespace KMCEventPlatform.Services.DTOs
         public string Address { get; set; } = string.Empty;
         public ParticipantRole Role { get; set; }
         public bool IsActive { get; set; } = true;
+        public List<string> RegisteredEventIds { get; set; } = new();
+        public List<string> OrganizedEventIds { get; set; } = new();
     }
 
     /// <summary>
@@ -49,5 +52,28 @@ namespace KMCEventPlatform.Services.DTOs
         public RegistrationStatus Status { get; set; }
         public int NumberOfGuests { get; set; }
         public string Comments { get; set; } = string.Empty;
+    }
+
+    public class RegisterRequestDto
+    {
+        public string FullName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public ParticipantRole Role { get; set; } = ParticipantRole.Regular;
+    }
+
+    public class LoginRequestDto
+    {
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+
+    public class AuthResponseDto
+    {
+        public string Token { get; set; } = string.Empty;
+        public DateTime ExpiresAtUtc { get; set; }
+        public ParticipantDto User { get; set; } = new();
     }
 }

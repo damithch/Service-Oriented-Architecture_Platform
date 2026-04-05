@@ -38,6 +38,11 @@ namespace KMCEventPlatform.Models
         public ParticipantRole Role { get; set; } = ParticipantRole.Regular;
 
         /// <summary>
+        /// Password hash used for authentication
+        /// </summary>
+        public string PasswordHash { get; set; } = string.Empty;
+
+        /// <summary>
         /// List of event IDs the user has registered for
         /// </summary>
         public List<string> RegisteredEventIds { get; set; } = new();

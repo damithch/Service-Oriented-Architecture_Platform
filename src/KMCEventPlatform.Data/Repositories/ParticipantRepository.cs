@@ -10,7 +10,9 @@ namespace KMCEventPlatform.Data.Repositories
     {
         Task<Participant?> GetByEmailAsync(string email);
         Task<List<Participant>> GetOrganizersByRoleAsync();
+        Task<List<Participant>> GetByIdsAsync(IEnumerable<string> participantIds);
         Task<bool> UpdateRegisteredEventsAsync(string participantId, string eventId, bool register);
+        Task<bool> UpdateOrganizedEventsAsync(string participantId, string eventId, bool organize);
     }
 
     /// <summary>
@@ -34,12 +36,30 @@ namespace KMCEventPlatform.Data.Repositories
             return await _collection.Find(filter).ToListAsync();
         }
 
+        public async Task<List<Participant>> GetByIdsAsync(IEnumerable<string> participantIds)
+        {
+            var ids = participantIds.ToList();
+            var filter = Builders<Participant>.Filter.In(x => x.Id, ids);
+            return await _collection.Find(filter).ToListAsync();
+        }
+
         public async Task<bool> UpdateRegisteredEventsAsync(string participantId, string eventId, bool register)
         {
             var filter = Builders<Participant>.Filter.Eq(x => x.Id, participantId);
             var update = register
                 ? Builders<Participant>.Update.AddToSet(x => x.RegisteredEventIds, eventId)
                 : Builders<Participant>.Update.Pull(x => x.RegisteredEventIds, eventId);
+
+            var result = await _collection.UpdateOneAsync(filter, update);
+            return result.ModifiedCount > 0;
+        }
+
+        public async Task<bool> UpdateOrganizedEventsAsync(string participantId, string eventId, bool organize)
+        {
+            var filter = Builders<Participant>.Filter.Eq(x => x.Id, participantId);
+            var update = organize
+                ? Builders<Participant>.Update.AddToSet(x => x.OrganizedEventIds, eventId)
+                : Builders<Participant>.Update.Pull(x => x.OrganizedEventIds, eventId);
 
             var result = await _collection.UpdateOneAsync(filter, update);
             return result.ModifiedCount > 0;

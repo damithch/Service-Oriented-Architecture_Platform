@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KMCEventPlatform.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+250358b3dad5ce525ec7af52d076e7f360a5f205")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84fc80e6fd310a4c73ac2df90d9dfebf449f5c10")]
 [assembly: System.Reflection.AssemblyProductAttribute("KMCEventPlatform.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KMCEventPlatform.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

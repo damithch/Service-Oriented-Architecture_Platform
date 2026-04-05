@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using KMCEventPlatform.Services.Services;
 using KMCEventPlatform.Services.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace KMCEventPlatform.API.Controllers
 {
@@ -20,6 +22,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Get all participants
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ParticipantDto>>> GetAllParticipants()
@@ -32,12 +35,21 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Get participant by ID
         /// </summary>
+        [Authorize]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ParticipantDto>> GetParticipantById(string id)
         {
             _logger.LogInformation($"Getting participant with ID: {id}");
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, id, StringComparison.Ordinal))
+                    return Forbid();
+            }
+
             var participant = await _participantService.GetParticipantByIdAsync(id);
 
             if (participant == null)
@@ -49,6 +61,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Get participant by email
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet("email/{email}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -66,6 +79,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Create a new participant
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -83,6 +97,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Update an existing participant
         /// </summary>
+        [Authorize]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -93,6 +108,17 @@ namespace KMCEventPlatform.API.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (!string.Equals(currentUserId, id, StringComparison.Ordinal))
+                    return Forbid();
+
+                var currentRole = User.FindFirstValue(ClaimTypes.Role);
+                if (!string.Equals(currentRole, participantDto.Role.ToString(), StringComparison.Ordinal))
+                    return BadRequest(new { message = "Users cannot change their own role." });
+            }
 
             var updatedParticipant = await _participantService.UpdateParticipantAsync(id, participantDto);
 
@@ -105,6 +131,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Delete a participant
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -122,6 +149,7 @@ namespace KMCEventPlatform.API.Controllers
         /// <summary>
         /// Get all event organizers
         /// </summary>
+        [Authorize(Roles = "Organizer,Admin")]
         [HttpGet("organizers/list")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ParticipantDto>>> GetOrganizers()
