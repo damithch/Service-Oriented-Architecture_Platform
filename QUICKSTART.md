@@ -43,7 +43,7 @@ choco install dotnet-sdk mongodb-server -y
 
 **Option C: Using Docker**
 ```powershell
-docker pull mcr.microsoft.com/dotnet/sdk:8.0
+"docker pull mcr.microsoft.com/dotnet/sdk:8.0 "
 docker run -d -p 27017:27017 --name kmc-mongodb mongo:latest
 ```
 
