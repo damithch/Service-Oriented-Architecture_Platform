@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { participantsApi, eventsApi } from "../services/api";
+import { readFileAsDataUrl } from "../utils/fileUtils";
 
 const initialForm = {
   title: "",
@@ -17,6 +18,7 @@ const initialForm = {
   status: 0,
   contactEmail: "",
   contactPhone: "",
+  imageUrl: "",
   tags: ""
 };
 
@@ -64,6 +66,21 @@ function EventsPage() {
   function onChange(event) {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+  }
+
+  async function onImageChange(event) {
+    const file = event.target.files?.[0];
+    if (!file) {
+      setForm((current) => ({ ...current, imageUrl: "" }));
+      return;
+    }
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setForm((current) => ({ ...current, imageUrl: dataUrl }));
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   function onSearchChange(event) {
@@ -341,6 +358,17 @@ function EventsPage() {
               </label>
 
               <label>
+                <span>Event Image</span>
+                <input type="file" accept="image/*" onChange={onImageChange} />
+              </label>
+
+              {form.imageUrl ? (
+                <div className="image-preview-card">
+                  <img className="event-image-preview" src={form.imageUrl} alt="Event preview" />
+                </div>
+              ) : null}
+
+              <label>
                 <span>Tags</span>
                 <input
                   name="tags"
@@ -375,6 +403,9 @@ function EventsPage() {
             {events.map((item) => (
               <article key={item.id} className="list-card">
                 <div>
+                  {item.imageUrl ? (
+                    <img className="event-list-image" src={item.imageUrl} alt={item.title} />
+                  ) : null}
                   <h4>{item.title}</h4>
                   <p>{item.category} | {item.location}</p>
                   <p>

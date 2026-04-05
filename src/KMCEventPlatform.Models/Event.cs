@@ -78,6 +78,11 @@ namespace KMCEventPlatform.Models
         public string ContactPhone { get; set; } = string.Empty;
 
         /// <summary>
+        /// Event image stored as a URL or data URL
+        /// </summary>
+        public string ImageUrl { get; set; } = string.Empty;
+
+        /// <summary>
         /// Event creation timestamp
         /// </summary>
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

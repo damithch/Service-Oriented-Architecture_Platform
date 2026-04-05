@@ -108,6 +108,9 @@ function EventDetailPage() {
         <div className="page-grid detail-layout">
           <div className="stack-list">
             <div className="card detail-grid">
+              {event.imageUrl ? (
+                <img className="event-detail-image" src={event.imageUrl} alt={event.title} />
+              ) : null}
               <h3>{event.title}</h3>
               <p>{event.description}</p>
               <p><strong>Category:</strong> {event.category}</p>

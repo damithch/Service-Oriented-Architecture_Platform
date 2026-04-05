@@ -21,6 +21,7 @@ namespace KMCEventPlatform.Services.DTOs
         public EventStatus Status { get; set; }
         public string ContactEmail { get; set; } = string.Empty;
         public string ContactPhone { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public List<string> ParticipantIds { get; set; } = new();
     }

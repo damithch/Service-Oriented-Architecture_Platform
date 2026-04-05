@@ -182,6 +182,33 @@ textarea {
   padding: 20px;
 }
 
+.image-preview-card {
+  padding: 12px;
+  border: 1px dashed #b8cad8;
+  border-radius: 16px;
+  background: #f6fbff;
+}
+
+.event-image-preview,
+.event-list-image,
+.event-detail-image {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.event-image-preview,
+.event-detail-image {
+  max-height: 280px;
+}
+
+.event-list-image {
+  max-width: 220px;
+  height: 140px;
+  margin-bottom: 14px;
+}
+
 .card-header {
   margin-bottom: 12px;
 }

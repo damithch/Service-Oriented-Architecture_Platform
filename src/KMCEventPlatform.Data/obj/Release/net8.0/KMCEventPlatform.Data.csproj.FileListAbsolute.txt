@@ -1,0 +1,16 @@
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\bin\Release\net8.0\KMCEventPlatform.Data.deps.json
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\bin\Release\net8.0\KMCEventPlatform.Data.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\bin\Release\net8.0\KMCEventPlatform.Data.pdb
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\bin\Release\net8.0\KMCEventPlatform.Models.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\bin\Release\net8.0\KMCEventPlatform.Models.pdb
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.csproj.AssemblyReference.cache
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.AssemblyInfoInputs.cache
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.AssemblyInfo.cs
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.csproj.CoreCompileInputs.cache
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.sourcelink.json
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEvent.F5B7BC53.Up2Date
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\refint\KMCEventPlatform.Data.dll
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\KMCEventPlatform.Data.pdb
+D:\Service-Oriented Architecture_Platform\src\KMCEventPlatform.Data\obj\Release\net8.0\ref\KMCEventPlatform.Data.dll

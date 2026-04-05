@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { eventsApi, participantsApi } from "../services/api";
+import { readFileAsDataUrl } from "../utils/fileUtils";
 
 function EventEditPage() {
   const auth = useAuth();
@@ -42,6 +43,20 @@ function EventEditPage() {
   function onChange(event) {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
+  }
+
+  async function onImageChange(event) {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setForm((current) => ({ ...current, imageUrl: dataUrl }));
+    } catch (err) {
+      setError(err.message);
+    }
   }
 
   function onOrganizerChange(event) {
@@ -171,6 +186,17 @@ function EventEditPage() {
             <span>Contact Phone</span>
             <input name="contactPhone" value={form.contactPhone} onChange={onChange} required />
           </label>
+
+          <label>
+            <span>Event Image</span>
+            <input type="file" accept="image/*" onChange={onImageChange} />
+          </label>
+
+          {form.imageUrl ? (
+            <div className="image-preview-card">
+              <img className="event-image-preview" src={form.imageUrl} alt={`${form.title} preview`} />
+            </div>
+          ) : null}
 
           <label>
             <span>Tags</span>
