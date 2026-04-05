@@ -5,7 +5,7 @@ using KMCEventPlatform.Services.Services;
 using KMCEventPlatform.Services.Mappings;
 using MongoDB.Driver;
 
-var builder = WebApplicationBuilder.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add configuration
 builder.Services.Configure<MongoDbSettings>(

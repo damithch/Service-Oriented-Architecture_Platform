@@ -4,9 +4,6 @@
 
 A complete **Service-Oriented Architecture (SOA)** solution for the Kandy Municipal Council's event management platform.
 
-**Assessment:** CSE5013 - Service Oriented Computing  
-**Academic Year:** 2025 (Semester 3)
-
 ---
 
 ## ✅ What Has Been Created
